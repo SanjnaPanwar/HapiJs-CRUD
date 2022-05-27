@@ -6,10 +6,10 @@ const server = new Hapi.Server({
     port: 4010
 });
 
-// GET APIs
+// GET API
 server.route({
     method: 'GET',
-    path: '/hello',
+    path: '/get/users',
     handler: (request, h) => {
         const promise = new Promise((resolve, reject) => {
             conn.query('SELECT * FROM People', function (err, results, fields) {
@@ -25,7 +25,28 @@ server.route({
     }
 });
 
-// POST APIs
+// GET by ID
+server.route({
+    method: 'GET',
+    path: '/user/{Id}',
+    handler: (request, h) => {
+        const promise = new Promise((resolve, reject) => {
+            var sql='SELECT * FROM People WHERE Id ="'+request.params.Id+'"';
+            conn.query(sql, function (err, results, fields) {
+                if (err) {
+                    reject(err);
+                } else {
+                    const response = h.response(results)
+                    resolve(response);
+                }
+            });
+        });
+        return promise;
+    }
+});
+
+
+// POST API
 server.route({
     method: 'POST',
     path: '/signup',
@@ -68,7 +89,7 @@ server.route({
     }
 });
 
-// DELETE APIs
+// DELETE API
 server.route({
     method: 'DELETE',
     path: '/delete/{Email}',
