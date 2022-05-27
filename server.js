@@ -1,6 +1,5 @@
 const conn = require("./dbConnetction");
 const Hapi = require("@hapi/hapi");
-const Joi = require("@hapi/joi")
 const server = new Hapi.Server({
     host: 'localhost',
     port: 4010
